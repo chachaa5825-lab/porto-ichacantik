@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% block title %}Pendidikan — {{ data.profile.name }}{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <div>
+    <h1 class="section-title">Riwayat Pendidikan</h1>
+    <p class="section-subtitle">Jejak akademik, jenjang pendidikan, dan pencapaian keilmuan teknologi informasi</p>
+  </div>
+  {% if is_admin %}
+  <button class="btn btn-primary" onclick="openModal('addEduModal')">+ Tambah Pendidikan</button>
+  {% endif %}
+</div>
+
+<div class="grid-2">
+  {% set edu_list = data.pendidikan if data.pendidikan else data.education %}
+  {% if edu_list %}
+    {% for edu in edu_list %}
+    <div class="glass-card timeline-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+      <div>
+        <div class="timeline-meta">
+          <span class="badge-pill" style="margin:0;">{{ edu.tingkat }}</span>
+          <span class="meta-pill {{ 'status-active' if 'Sedang' in edu.status or 'Aktif' in edu.status else 'status-completed' }}">
+            ● {{ edu.status }}
+          </span>
+          <span class="meta-pill">📅 {{ edu.tahun }}</span>
+        </div>
+
+        <h3 style="margin: 0.6rem 0 0.25rem 0; font-size:1.2rem;">{{ edu.institusi }}</h3>
+        <div style="color:var(--accent-pink); font-size:0.95rem; font-weight:600; margin-bottom:0.4rem;">
+          {{ edu.jurusan }}
+        </div>
+
+        {% if edu.nilai %}
+          <div class="edu-grade-box">🎯 {{ edu.nilai }}</div>
+        {% endif %}
+
+        <p style="color:var(--text-muted); font-size:0.92rem; line-height:1.65; margin-top:0.4rem;">
+          {{ edu.deskripsi }}
+        </p>
+
+        {% if edu.prestasi %}
+          <div style="margin-top:0.9rem;">
+            <div style="font-size:0.83rem; font-weight:600; color:var(--text-main); margin-bottom:0.35rem;">
+              Pencapaian &amp; Fokus:
+            </div>
+            <ul class="bullet-list">
+              {% for p in edu.prestasi %}
+                <li>{{ p }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if is_admin %}
+      <div class="card-action-bar">
+        <button type="button" class="btn btn-outline btn-sm btn-edit-edu"
+          data-id="{{ edu.id }}"
+          data-tingkat="{{ edu.tingkat|e }}"
+          data-institusi="{{ edu.institusi|e }}"
+          data-jurusan="{{ edu.jurusan|e }}"
+          data-tahun="{{ edu.tahun|e }}"
+          data-status="{{ edu.status|e }}"
+          data-nilai="{{ edu.nilai|e }}"
+          data-deskripsi="{{ edu.deskripsi|e }}"
+          data-prestasi="{{ edu.prestasi|join(', ')|e if edu.prestasi else '' }}">
+          Edit
+        </button>
+        <form action="{{ url_for('delete_pendidikan', edu_id=edu.id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pendidikan ini?');">
+          <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="glass-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem;">
+      <p style="color:var(--text-muted); margin-bottom: 1rem;">Belum ada riwayat pendidikan yang terdaftar.</p>
+      {% if is_admin %}
+      <button class="btn btn-primary btn-sm" onclick="openModal('addEduModal')">+ Tambah Riwayat Pendidikan Pertama</button>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+{% if is_admin %}
+<!-- Modal Tambah Pendidikan -->
+<div id="addEduModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 style="margin-bottom:1.2rem;">Tambah Riwayat Pendidikan</h3>
+    <form action="{{ url_for('add_pendidikan') }}" method="POST">
+      <div class="form-group">
+        <label>Jenjang / Tingkat</label>
+        <input type="text" name="tingkat" class="form-control" placeholder="Perguruan Tinggi (S1) / SMA / SMK" required />
+      </div>
+      <div class="form-group">
+        <label>Nama Institusi / Sekolah / Universitas</label>
+        <input type="text" name="institusi" class="form-control" placeholder="Contoh: Universitas / SMA Negeri 1" required />
+      </div>
+      <div class="form-group">
+        <label>Jurusan / Program Studi</label>
+        <input type="text" name="jurusan" class="form-control" placeholder="Contoh: S1 Informatika / MIPA" required />
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
+        <div class="form-group">
+          <label>Tahun / Periode</label>
+          <input type="text" name="tahun" class="form-control" placeholder="2024 - Sekarang" required />
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <input type="text" name="status" class="form-control" placeholder="Sedang Menempuh / Lulus" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nilai / IPK (Opsional)</label>
+        <input type="text" name="nilai" class="form-control" placeholder="Contoh: IPK 3.85 / 4.00" />
+      </div>
+      <div class="form-group">
+        <label>Deskripsi / Fokus Akademik</label>
+        <textarea name="deskripsi" rows="3" class="form-control" placeholder="Ringkasan fokus studi atau aktivitas akademik..." required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Prestasi / Pencapaian (pisahkan dengan koma)</label>
+        <input type="text" name="prestasi" class="form-control" placeholder="Beasiswa Prestasi, Asisten Dosen, Lulusan Terbaik" />
+      </div>
+      <div class="btn-group" style="justify-content:flex-end;">
+        <button type="button" class="btn btn-outline" onclick="closeModal('addEduModal')">Batal</button>
+        <button type="submit" class="btn btn-primary">Simpan ke JSON</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Edit Pendidikan -->
+<div id="editEduModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 style="margin-bottom:1.2rem;">Edit Riwayat Pendidikan</h3>
+    <form id="editEduForm" method="POST">
+      <div class="form-group">
+        <label>Jenjang / Tingkat</label>
+        <input type="text" id="editEduTingkat" name="tingkat" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label>Nama Institusi / Sekolah / Universitas</label>
+        <input type="text" id="editEduInstitusi" name="institusi" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label>Jurusan / Program Studi</label>
+        <input type="text" id="editEduJurusan" name="jurusan" class="form-control" required />
+      </div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
+        <div class="form-group">
+          <label>Tahun / Periode</label>
+          <input type="text" id="editEduTahun" name="tahun" class="form-control" required />
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <input type="text" id="editEduStatus" name="status" class="form-control" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Nilai / IPK (Opsional)</label>
+        <input type="text" id="editEduNilai" name="nilai" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label>Deskripsi / Fokus Akademik</label>
+        <textarea id="editEduDeskripsi" name="deskripsi" rows="3" class="form-control" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>Prestasi / Pencapaian (pisahkan dengan koma)</label>
+        <input type="text" id="editEduPrestasi" name="prestasi" class="form-control" />
+      </div>
+      <div class="btn-group" style="justify-content:flex-end;">
+        <button type="button" class="btn btn-outline" onclick="closeModal('editEduModal')">Batal</button>
+        <button type="submit" class="btn btn-primary">Update Data</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function openModal(id) {
+    var modal = document.getElementById(id);
+    if (modal) modal.classList.add('open');
+  }
+  function closeModal(id) {
+    var modal = document.getElementById(id);
+    if (modal) modal.classList.remove('open');
+  }
+  function openEditEdu(id, tingkat, institusi, jurusan, tahun, status, nilai, deskripsi, prestasi) {
+    document.getElementById('editEduForm').action = '/pendidikan/edit/' + id;
+    document.getElementById('editEduTingkat').value = tingkat || '';
+    document.getElementById('editEduInstitusi').value = institusi || '';
+    document.getElementById('editEduJurusan').value = jurusan || '';
+    document.getElementById('editEduTahun').value = tahun || '';
+    document.getElementById('editEduStatus').value = status || '';
+    document.getElementById('editEduNilai').value = nilai || '';
+    document.getElementById('editEduDeskripsi').value = deskripsi || '';
+    document.getElementById('editEduPrestasi').value = prestasi || '';
+    openModal('editEduModal');
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-edit-edu').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        openEditEdu(
+          this.dataset.id,
+          this.dataset.tingkat,
+          this.dataset.institusi,
+          this.dataset.jurusan,
+          this.dataset.tahun,
+          this.dataset.status,
+          this.dataset.nilai,
+          this.dataset.deskripsi,
+          this.dataset.prestasi
+        );
+      });
+    });
+    document.querySelectorAll('.modal-overlay').forEach(function(modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('open');
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

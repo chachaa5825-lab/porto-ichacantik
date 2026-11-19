@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}About — {{ data.profile.name }}{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <div>
+    <h1 class="section-title">Tentang Saya</h1>
+    <p class="section-subtitle">Profil akademik, minat teknologi, dan eksplorasi kreatif</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="glass-card">
+    <h3 style="margin-bottom: 1rem; color: var(--accent-pink);">Identitas &amp; Akademik</h3>
+    <p style="line-height: 1.75; color: var(--text-muted); margin-bottom: 1.5rem;">
+      {{ data.profile.bio }}
+    </p>
+    <div style="display: grid; gap: 0.8rem; font-size: 0.94rem;">
+      <div><strong>Nama Lengkap:</strong> {{ data.profile.name }}</div>
+      <div><strong>NIM:</strong> <span style="font-family:'JetBrains Mono',monospace;">{{ data.profile.nim }}</span></div>
+      <div><strong>Status &amp; Prodi:</strong> {{ data.profile.semester }}</div>
+      <div><strong>Domisili:</strong> {{ data.profile.location }}</div>
+      {% if data.profile.email %}
+      <div><strong>Email:</strong> <a href="mailto:{{ data.profile.email }}" style="color:var(--accent-pink); text-decoration:none;">{{ data.profile.email }}</a></div>
+      {% endif %}
+      {% if data.profile.github %}
+      <div><strong>GitHub:</strong> <a href="{{ data.profile.github }}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-purple); text-decoration:none;">{{ data.profile.github }}</a></div>
+      {% endif %}
+      {% if data.profile.linkedin %}
+      <div><strong>LinkedIn:</strong> <a href="{{ data.profile.linkedin }}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-pink); text-decoration:none;">{{ data.profile.linkedin }}</a></div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="glass-card">
+    <h3 style="margin-bottom: 1rem; color: var(--accent-purple);">Fokus Eksplorasi</h3>
+    <div style="display: grid; gap: 1rem;">
+      <div style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03);">
+        <strong>Full-Stack Web &amp; UI/UX</strong>
+        <p style="color:var(--text-muted); font-size:0.88rem; margin-top:0.3rem;">
+          Merancang antarmuka modern bertema gelap yang responsif dengan validasi backend yang aman.
+        </p>
+      </div>
+      <div style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03);">
+        <strong>Computer Vision &amp; Data Modeling</strong>
+        <p style="color:var(--text-muted); font-size:0.88rem; margin-top:0.3rem;">
+          Implementasi deteksi gestur real-time berbasis Python serta perancangan skema database relasional.
+        </p>
+      </div>
+      <div style="padding: 1rem; border-radius: 12px; background: rgba(255,255,255,0.03);">
+        <strong>Retro Digital Art &amp; Photography</strong>
+        <p style="color:var(--text-muted); font-size:0.88rem; margin-top:0.3rem;">
+          Menggabungkan estetika visual retro dan dokumentasi fotografi ke dalam konsep desain digital.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

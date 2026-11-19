@@ -1,0 +1,226 @@
+const portfolioData = {
+  profile: {
+    name: "Roichatul Jannah",
+    alias: "Ichaa Caaantikk",
+    role: "Informatics Student & Full-Stack Enthusiast",
+    nim: "251111069",
+    semester: "Semester 3 — Prodi Informatika",
+    bio: "Mahasiswa Informatika yang berfokus pada pengembangan web modern, computer vision, dan perancangan basis data. Gemar mengeksplorasi estetika retro digital art serta dokumentasi visual.",
+    email: "ichaarifin585@gmail.com",
+    github: "https://github.com/chachaa5825-lab",
+    linkedin: "https://linkedin.com/Icha Arifin",
+    location: "Sleman, Yogyakarta"
+  },
+  skills: [
+    {
+      category: "Frontend & UI/UX",
+      items: [
+        { name: "HTML5 & CSS3 (Custom Glassmorphism)", level: 92 },
+        { name: "Tailwind CSS", level: 88 },
+        { name: "Vanilla JavaScript", level: 85 }
+      ]
+    },
+    {
+      category: "Backend & Database",
+      items: [
+        { name: "Python (Flask)", level: 85 },
+        { name: "Oracle SQL Developer Data Modeler", level: 82 },
+        { name: "Firebase Cloud Storage", level: 80 }
+      ]
+    },
+    {
+      category: "AI & Computer Vision",
+      items: [
+        { name: "OpenCV & MediaPipe", level: 84 },
+        { name: "Git Version Control", level: 86 }
+      ]
+    }
+  ],
+  projects: [
+    {
+      id: 1,
+      title: "Kantin Kampus",
+      category: "Web App",
+      description: "Aplikasi pemesanan kantin kampus responsif dengan validasi server-side, sanitasi data, dan antarmuka custom black-pink.",
+      tech: ["Python", "Flask", "CSS3", "Form Validation"],
+      link: "#"
+    },
+    {
+      id: 2,
+      title: "Hand Sign Caroline",
+      category: "Computer Vision",
+      description: "Aplikasi pengenalan bahasa isyarat tangan secara real-time menggunakan OpenCV dan MediaPipe dengan keluaran suara (TTS).",
+      tech: ["Python", "OpenCV", "MediaPipe", "gTTS"],
+      link: "#"
+    },
+    {
+      id: 3,
+      title: "Sistem Informasi Perpustakaan",
+      category: "Database Design",
+      description: "Perancangan konseptual Entity-Relationship Diagram (ERD) dan model basis data logis untuk manajemen perpustakaan.",
+      tech: ["Oracle SQL Modeler", "ERD", "Relational DB"],
+      link: "#"
+    }
+  ],
+  blogs: [
+    {
+      id: 1,
+      title: "Membangun Validasi Server-Side yang Aman pada Flask",
+      date: "2026-11-05",
+      tag: "Web Security",
+      content: "Sanitasi input dan validasi di sisi server sangat krusial untuk mencegah celah keamanan dasar seperti XSS dan injeksi data pada form web."
+    },
+    {
+      id: 2,
+      title: "Pengenalan Gesture Real-Time dengan MediaPipe",
+      date: "2026-10-20",
+      tag: "Computer Vision",
+      content: "MediaPipe mempermudah ekstraksi 21 titik koordinat landmark tangan secara ringan tanpa membutuhkan GPU kelas berat."
+    }
+  ],
+  education: [
+    {
+      id: 1,
+      tingkat: "Perguruan Tinggi (S1)",
+      institusi: "Universitas Nahdlatul Ulama Yogyakarta",
+      jurusan: "S1 Program Studi Informatika",
+      tahun: "2024 - Sekarang",
+      status: "Sedang Menempuh (Semester 3)",
+      nilai: "IPK 3.91 / 4.00",
+      deskripsi: "Fokus pada pengembangan web full-stack, kecerdasan buatan & computer vision, serta perancangan basis data relasional. Aktif berpartisipasi dalam praktikum dan proyek riset mandiri.",
+      prestasi: [
+        "Penerima Beasiswa Prestasi Akademik",
+        "Semangat dalam Praktikum Pemrograman Web",
+        "Aktif dalam Organisasi Kampus dan Luar Kampus"
+      ]
+    },
+    {
+      id: 2,
+      tingkat: "Sekolah Menengah Atas (SMA)",
+      institusi: "MA Darul Ulum Banyuanyar Putri",
+      jurusan: "IPA (Ilmu Pengetahuan Alam)",
+      tahun: "2020 - 2024",
+      status: "Lulus",
+      nilai: "Rata-rata 96.9",
+      deskripsi: "Mendalami fondasi sains dan matematika, aktif dalam kegiatan komputasi dasar, perancangan grafis, dan organisasi ilmiah remaja.",
+      prestasi: [
+        "Peringkat 1 Kelas X semester akhir",
+        "Peringkat 1 Kelas XI semester awal",
+        "Peringkat 2 Kelas XI semester akhir",
+        "Peringkat 1 Kelas XII semester akhir",
+        "Juara 2 Lomba teater",
+        "Juara 2 Lomba Orasi",
+        "Juara 1 Lomba Karya Tulis Cerpen Tingkat Angkatan",
+        "Ketua Divisi Media & Publikasi Organisasi",
+        "Aktif dalam Organisasi Forum Lingkar Pena (FLP)",
+        "Aktif dalam Markaz Dirosah Qur'aniyah"
+      ]
+    },
+    {
+      id: 3,
+      tingkat: "Sekolah Menengah Pertama (SMP)",
+      institusi: "SMP Tahfidh Al-Amien Prenduan",
+      jurusan: "Pendidikan Dasar Menengah",
+      tahun: "2017 - 2020",
+      status: "Lulus",
+      nilai: "Rata-rata 97.5",
+      deskripsi: "Pendidikan dasar akademik dengan pengenalan awal pada komputer, teknologi informasi, dan kepemimpinan dalam keorganisasian sekolah.",
+      prestasi: [
+        "Anggota Aktif Tim Olimpiade Sains Sekolah",
+        "Mempunyai Hafalan Al-Quran",
+        "Speaking English and Arabic"
+      ]
+    },
+    {
+      id: 4,
+      tingkat: "Sekolah Dasar (SD)",
+      institusi: "SDN Lepelle 1",
+      jurusan: "Pendidikan Dasar",
+      tahun: "2011 - 2017",
+      status: "Lulus",
+      nilai: "Rata-rata 99.8",
+      deskripsi: "Menempuh pendidikan dasar yang membentuk kedisiplinan belajar, rasa ingin tahu yang tinggi, serta keterampilan dasar literasi dan numerasi.",
+      prestasi: [
+        "Peringkat 1 mulai dari kelas 3 SD sampai lulus",
+        "Juara 2 Lomba AKABIMA (Matematika, Bahasa Indonesia, dan MIPA) se-Kabupaten",
+        "Juara 1 Lomba Puisi se-Kecamatan",
+        "Juara 1 Lomba Pidato se-Kecamatan",
+        "Juara 2 Lomba Story Telling se-Kabupaten",
+        "Juara 1 Lomba Teater",
+        "Lulusan Terbaik di Sekolah Dasar"
+      ]
+    }
+  ],
+  experience: [
+    {
+      id: 1,
+      posisi: "Asisten Praktikum Pemrograman Web",
+      instansi: "Laboratorium Komputasi & Informatika",
+      tipe: "Akademik",
+      periode: "2025 - Sekarang",
+      lokasi: "Yogyakarta",
+      deskripsi: "Membimbing mahasiswa dalam memahami implementasi praktis HTML5, CSS kustom, JavaScript interaktif, dan backend Flask terintegrasi database JSON.",
+      keterampilan: [
+        "Python",
+        "Flask",
+        "HTML5 & CSS3",
+        "Mentoring",
+        "Code Review"
+      ]
+    },
+    {
+      id: 2,
+      posisi: "Staf Divisi Multimedia & Publikasi",
+      instansi: "Himpunan Mahasiswa Informatika (HMIF)",
+      tipe: "Organisasi",
+      periode: "2025 - Sekarang",
+      lokasi: "Yogyakarta",
+      deskripsi: "Merancang identitas visual, poster acara, serta mengelola publikasi konten media digital untuk memperluas jangkauan informasi kegiatan mahasiswa informatika.",
+      keterampilan: [
+        "Figma",
+        "Digital Art",
+        "Content Curation",
+        "Teamwork"
+      ]
+    },
+    {
+      id: 3,
+      posisi: "Full-Stack Web Developer (Mini Project)",
+      instansi: "Proyek Mandiri & Praktikum",
+      tipe: "Proyek",
+      periode: "2025 - Sekarang",
+      lokasi: "Yogyakarta",
+      deskripsi: "Membangun prototipe aplikasi web pemesanan kantin dengan validasi server-side dan antarmuka bertema gelap, serta perancangan skema relasional sistem perpustakaan.",
+      keterampilan: [
+        "Flask",
+        "Glassmorphism UI",
+        "Data Validation",
+        "Oracle SQL Modeler"
+      ]
+    },
+    {
+      id: 4,
+      posisi: "Koordinator Divisi IT & Registrasi",
+      instansi: "Seminar Nasional Teknologi Informasi",
+      tipe: "Kepanitiaan",
+      periode: "2025",
+      lokasi: "Yogyakarta",
+      deskripsi: "Mengelola sistem pendaftaran daring, verifikasi kehadiran peserta via barcode/form web, serta memastikan kestabilan koneksi live streaming presentasi.",
+      keterampilan: [
+        "Event Management",
+        "Network Setup",
+        "Troubleshooting",
+        "Communication"
+      ]
+    }
+  ],
+  messages: []
+};
+
+// Alias untuk fleksibilitas akses (Bahasa Indonesia & Bahasa Inggris)
+portfolioData.pendidikan = portfolioData.education;
+portfolioData.pengalaman = portfolioData.experience;
+
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = portfolioData;
+}

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}Blog — {{ data.profile.name }}{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <div>
+    <h1 class="section-title">Tech Notes &amp; Blog</h1>
+    <p class="section-subtitle">
+      {% if is_admin %}
+        Catatan pembelajaran dan artikel teknis tersimpan di data.json
+      {% else %}
+        Catatan pembelajaran dan artikel teknis
+      {% endif %}
+    </p>
+  </div>
+  {% if is_admin %}
+  <button class="btn btn-primary" onclick="openModal('addBlogModal')">+ Tulis Artikel</button>
+  {% endif %}
+</div>
+
+<div class="grid-2">
+  {% if data.blogs %}
+    {% for post in data.blogs %}
+    <article class="glass-card" style="display:flex; flex-direction:column; justify-content:space-between;">
+      <div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+          <span class="tag">{{ post.tag }}</span>
+          <span style="font-size:0.8rem; color:var(--text-muted);">{{ post.date }}</span>
+        </div>
+        <h3 style="margin-bottom:0.6rem;">{{ post.title }}</h3>
+        <p style="color:var(--text-muted); font-size:0.93rem; line-height:1.65;">{{ post.content }}</p>
+      </div>
+
+      {% if is_admin %}
+      <div style="display:flex; gap:0.5rem; margin-top:1.2rem; padding-top:1rem; border-top:1px solid var(--border-glass);">
+        <button type="button" class="btn btn-outline btn-sm btn-edit-blog"
+          data-id="{{ post.id }}"
+          data-title="{{ post.title|e }}"
+          data-tag="{{ post.tag|e }}"
+          data-content="{{ post.content|e }}">
+          Edit
+        </button>
+        <form action="{{ url_for('delete_blog', blog_id=post.id) }}" method="POST" onsubmit="return confirm('Hapus artikel ini?');">
+          <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+        </form>
+      </div>
+      {% endif %}
+    </article>
+    {% endfor %}
+  {% else %}
+    <div class="glass-card" style="grid-column: 1 / -1; text-align: center; padding: 3rem 1.5rem;">
+      <p style="color:var(--text-muted); margin-bottom: 1rem;">Belum ada artikel blog.</p>
+      {% if is_admin %}
+      <button class="btn btn-primary btn-sm" onclick="openModal('addBlogModal')">+ Tulis Artikel Pertama</button>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+{% if is_admin %}
+<!-- Modal Tambah Blog -->
+<div id="addBlogModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 style="margin-bottom:1.2rem;">Tulis Artikel Baru</h3>
+    <form action="{{ url_for('add_blog') }}" method="POST">
+      <div class="form-group">
+        <label>Judul Artikel</label>
+        <input type="text" name="title" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label>Topik / Tag</label>
+        <input type="text" name="tag" class="form-control" placeholder="Web Security / Python / Database" required />
+      </div>
+      <div class="form-group">
+        <label>Isi Artikel</label>
+        <textarea name="content" rows="4" class="form-control" required></textarea>
+      </div>
+      <div class="btn-group" style="justify-content:flex-end;">
+        <button type="button" class="btn btn-outline" onclick="closeModal('addBlogModal')">Batal</button>
+        <button type="submit" class="btn btn-primary">Publikasikan</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Edit Blog -->
+<div id="editBlogModal" class="modal-overlay">
+  <div class="modal-box">
+    <h3 style="margin-bottom:1.2rem;">Edit Artikel</h3>
+    <form id="editBlogForm" method="POST">
+      <div class="form-group">
+        <label>Judul Artikel</label>
+        <input type="text" id="editBlogTitle" name="title" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label>Topik / Tag</label>
+        <input type="text" id="editBlogTag" name="tag" class="form-control" required />
+      </div>
+      <div class="form-group">
+        <label>Isi Artikel</label>
+        <textarea id="editBlogContent" name="content" rows="4" class="form-control" required></textarea>
+      </div>
+      <div class="btn-group" style="justify-content:flex-end;">
+        <button type="button" class="btn btn-outline" onclick="closeModal('editBlogModal')">Batal</button>
+        <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+  function openModal(id) {
+    var modal = document.getElementById(id);
+    if (modal) modal.classList.add('open');
+  }
+  function closeModal(id) {
+    var modal = document.getElementById(id);
+    if (modal) modal.classList.remove('open');
+  }
+  function openEditBlog(id, title, tag, content) {
+    document.getElementById('editBlogForm').action = '/blog/edit/' + id;
+    document.getElementById('editBlogTitle').value = title || '';
+    document.getElementById('editBlogTag').value = tag || '';
+    document.getElementById('editBlogContent').value = content || '';
+    openModal('editBlogModal');
+  }
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.btn-edit-blog').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        openEditBlog(
+          this.dataset.id,
+          this.dataset.title,
+          this.dataset.tag,
+          this.dataset.content
+        );
+      });
+    });
+    document.querySelectorAll('.modal-overlay').forEach(function(modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.classList.remove('open');
+        }
+      });
+    });
+  });
+</script>
+{% endblock %}

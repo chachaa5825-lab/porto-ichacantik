@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Skills — {{ data.profile.name }}{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <div>
+    <h1 class="section-title">Technical Skills</h1>
+    <p class="section-subtitle">Teknologi dan tools yang digunakan dalam pengembangan proyek</p>
+  </div>
+</div>
+
+<div class="grid-3">
+  {% if data.skills %}
+    {% for group in data.skills %}
+    <div class="glass-card">
+      <h3 style="margin-bottom: 1.3rem; color: var(--accent-pink);">{{ group.category }}</h3>
+      {% for item in group['items'] %}
+      <div class="skill-item">
+        <div class="skill-info">
+          <span>{{ item.name }}</span>
+          <span style="font-family:'JetBrains Mono',monospace; color:var(--accent-pink);">{{ item.level }}%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" data-level="{{ item.level }}" style="width: 0%;"></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  {% else %}
+    <div class="glass-card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+      <p style="color:var(--text-muted);">Belum ada data keahlian.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Animasikan progress bar sesuai nilai data-level
+    document.querySelectorAll('.progress-fill').forEach(function(bar) {
+      var level = bar.getAttribute('data-level');
+      if (level) {
+        bar.style.width = level + '%';
+      }
+    });
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}Contact — {{ data.profile.name }}{% endblock %}
+
+{% block content %}
+<div class="section-header">
+  <div>
+    <h1 class="section-title">Get In Touch</h1>
+    <p class="section-subtitle">Kirim pesan kolaborasi atau diskusi proyek</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="glass-card">
+    <form action="{{ url_for('contact') }}" method="POST">
+      <div class="form-group">
+        <label>Nama Anda</label>
+        <input type="text" name="name" class="form-control" placeholder="Masukkan nama lengkap" required />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" class="form-control" placeholder="nama@email.com" required />
+      </div>
+      <div class="form-group">
+        <label>Pesan</label>
+        <textarea name="message" rows="4" class="form-control" placeholder="Tulis pesan Anda..." required></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%;">Kirim Pesan</button>
+    </form>
+  </div>
+
+  <div class="glass-card">
+    <h3 style="margin-bottom:1rem; color:var(--accent-pink);">Informasi Kontak</h3>
+    <div style="display:grid; gap:0.6rem; font-size:0.92rem; margin-bottom:1.5rem; color:var(--text-muted);">
+      <div>📍 <strong>Lokasi:</strong> {{ data.profile.location }}</div>
+      {% if data.profile.email %}
+      <div>✉️ <strong>Email:</strong> <a href="mailto:{{ data.profile.email }}" style="color:var(--accent-pink); text-decoration:none;">{{ data.profile.email }}</a></div>
+      {% endif %}
+      {% if data.profile.github %}
+      <div>🐙 <strong>GitHub:</strong> <a href="{{ data.profile.github }}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-purple); text-decoration:none;">{{ data.profile.github }}</a></div>
+      {% endif %}
+      {% if data.profile.linkedin %}
+      <div>💼 <strong>LinkedIn:</strong> <a href="{{ data.profile.linkedin }}" target="_blank" rel="noopener noreferrer" style="color:var(--accent-pink); text-decoration:none;">{{ data.profile.linkedin }}</a></div>
+      {% endif %}
+    </div>
+
+    {% if is_admin %}
+    <h3 style="margin-bottom:1rem; color:var(--accent-purple);">Pesan Masuk Terbaru</h3>
+    {% if data.messages %}
+      <div style="display:grid; gap:0.85rem; max-height:320px; overflow-y:auto;">
+        {% for m in data.messages|reverse %}
+        <div style="padding:0.9rem; border-radius:12px; background:rgba(255,255,255,0.03); border:1px solid var(--border-glass);">
+          <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.3rem;">
+            <strong>{{ m.name }}</strong>
+            <span style="color:var(--text-muted);">{{ m.date }}</span>
+          </div>
+          <p style="font-size:0.88rem; color:var(--text-muted);">{{ m.message }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="color:var(--text-muted); font-size:0.92rem;">Belum ada pesan masuk.</p>
+    {% endif %}
+    {% else %}
+    <div style="margin-top:1rem; padding:1rem; border-radius:12px; background:rgba(255,255,255,0.03); border:1px solid var(--border-glass);">
+      <p style="color:var(--text-muted); font-size:0.9rem; text-align:center;">
+        💌 Pesan Anda akan tersimpan dan dibaca oleh admin.
+      </p>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

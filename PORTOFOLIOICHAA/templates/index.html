@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Home — {{ data.profile.name }}{% endblock %}
+
+{% block content %}
+<section class="hero-grid">
+  <div>
+    <div class="badge-pill">● {{ data.profile.semester }}</div>
+    <h1 class="hero-title">
+      Halo, Saya <span class="gradient-text">{{ data.profile.alias }}</span>
+    </h1>
+    <p class="hero-desc">{{ data.profile.bio }}</p>
+    <div class="btn-group">
+      <a href="{{ url_for('projects') }}" class="btn btn-primary">Jelajahi Projects</a>
+      <a href="{{ url_for('contact') }}" class="btn btn-outline">Hubungi Saya</a>
+    </div>
+  </div>
+
+  <div class="profile-frame">
+    <img src="{{ url_for('static', filename='images/profile.jpeg') }}" alt="Foto Profil {{ data.profile.alias }}" />
+  </div>
+</section>
+
+<section style="margin-top: 4rem;">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-subtitle">Karya pilihan yang tersimpan dinamis di data.json</p>
+    </div>
+    {% if is_admin %}
+    <a href="{{ url_for('projects') }}" class="btn btn-outline btn-sm">Kelola CRUD Projects →</a>
+    {% else %}
+    <a href="{{ url_for('projects') }}" class="btn btn-outline btn-sm">Lihat Semua Projects →</a>
+    {% endif %}
+  </div>
+
+  <div class="grid-3">
+    {% if data.projects %}
+      {% for project in data.projects[:3] %}
+      <div class="glass-card">
+        <span class="badge-pill" style="margin-bottom:0.8rem;">{{ project.category }}</span>
+        <h3 style="margin-bottom:0.5rem;">{{ project.title }}</h3>
+        <p style="color:var(--text-muted); font-size:0.92rem; line-height:1.6;">{{ project.description }}</p>
+        <div class="tag-list">
+          {% for t in project.tech %}
+            <span class="tag">{{ t }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="glass-card" style="grid-column: 1 / -1; text-align: center; padding: 2rem;">
+        <p style="color:var(--text-muted);">Belum ada project yang ditambahkan.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
